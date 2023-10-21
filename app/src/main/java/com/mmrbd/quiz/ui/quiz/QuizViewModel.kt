@@ -20,7 +20,6 @@ class QuizViewModel @Inject constructor(
 
     val questionResponseSFlow = MutableSharedFlow<Result<QuestionResponse>>()
     val questionFlow = MutableSharedFlow<Question>()
-    val questionCounterFlow = MutableStateFlow<Int>(0)
 
     init {
         getQuestions()
@@ -43,12 +42,6 @@ class QuizViewModel @Inject constructor(
             if (position != 0)
                 delay(2000)
             questionFlow.emit(question)
-        }
-    }
-
-    fun incrementCounter(number: Int) {
-        viewModelScope.launch {
-            questionCounterFlow.emit(number)
         }
     }
 }

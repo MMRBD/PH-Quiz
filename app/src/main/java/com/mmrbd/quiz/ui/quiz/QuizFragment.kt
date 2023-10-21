@@ -60,8 +60,6 @@ class QuizFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        AppLogger.log("sharePrefUtil:: ${sharePrefUtil.getValueInt(AppConstants.HIGH_SCORE)}")
-
         adapter = AnswerOptionAdapter { ques, isCorrect ->
             if (isCorrect) {
                 scoreCount += ques.score
@@ -117,13 +115,6 @@ class QuizFragment : Fragment() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.questionCounterFlow.collect {
-
-            }
-        }
-
 
         lifecycleScope.launch {
             viewModel.questionFlow.collect {
