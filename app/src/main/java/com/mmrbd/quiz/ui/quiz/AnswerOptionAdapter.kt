@@ -29,7 +29,6 @@ class AnswerOptionAdapter(private val onItemClickListener: (Question, isCorrect:
     fun submitData(question: Question) {
         this.question = question
 
-
         var tmpOptions: MutableList<Map<String, String>> = mutableListOf()
 
         if (this.question.answers.A != null) {
@@ -47,7 +46,6 @@ class AnswerOptionAdapter(private val onItemClickListener: (Question, isCorrect:
         }
 
         options = tmpOptions.shuffled(random = Random())
-
         notifyDataSetChanged()
     }
 
@@ -67,21 +65,12 @@ class AnswerOptionAdapter(private val onItemClickListener: (Question, isCorrect:
 
 
         holder.itemView.setOnClickListener {
-//            onItemClickListener.invoke()
             if (question.answers.selectedOption == null) {
                 question.answers.selectedOption = options[position]
                 question.answers.selectedPosition = position
                 notifyDataSetChanged()
-
             }
         }
-
-//        holder.itemView.setOnClickListener {
-//
-//            question.correctAnswer = options[position]
-//
-//            notifyDataSetChanged()
-//        }
 
         if (question.answers.selectedOption != null) {
             if (question.answers.selectedOption!!.keys.map { it }[0] == question.correctAnswer && question.answers.selectedPosition == position) {
@@ -95,7 +84,7 @@ class AnswerOptionAdapter(private val onItemClickListener: (Question, isCorrect:
 
                 onItemClickListener.invoke(question, false)
             } else {
-                if (options.get(position).get(question.correctAnswer) != null) {
+                if (options[position][question.correctAnswer] != null) {
                     holder.itemView.setBackgroundResource(R.drawable.bg_correct_ans)
                 }
             }
@@ -103,14 +92,6 @@ class AnswerOptionAdapter(private val onItemClickListener: (Question, isCorrect:
             holder.itemView.setBackgroundResource(R.drawable.bg_normal_option)
 
         }
-//
-//        if (question.answers.correctAns.isNullOrEmpty()) {
-//
-//        } else if (question.answers.correctAns == question.correctAnswer) {
-//            holder.itemView.setBackgroundResource(R.drawable.bg_correct_ans)
-//        } else if (question.userAnswer != question.correctAnswer) {
-//            holder.itemView.setBackgroundResource(R.drawable.bg_wrong_ans)
-//        }
     }
 
     private fun getA(position: Int): String {
