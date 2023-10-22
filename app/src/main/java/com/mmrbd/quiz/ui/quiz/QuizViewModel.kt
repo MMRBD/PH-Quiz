@@ -35,11 +35,11 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun setQuestionX(question: Question, position: Int) {
+    fun setQuestionX(question: Question, position: Int, isAutoNext: Boolean = false) {
 
 
         viewModelScope.launch {
-            if (position != 0)
+            if (position != 0 || isAutoNext)
                 delay(2000)
             questionFlow.emit(question)
         }

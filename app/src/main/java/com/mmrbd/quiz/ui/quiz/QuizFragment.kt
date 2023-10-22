@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import com.mmrbd.quiz.R
 import com.mmrbd.quiz.databinding.FragmentQuizBinding
 import com.mmrbd.quiz.utils.network.Result
 import com.mmrbd.quiz.data.model.Question
+import com.mmrbd.quiz.ui.theme.PHQuizTheme
 import com.mmrbd.quiz.utils.AppConstants
 import com.mmrbd.quiz.utils.AppLogger
 import com.mmrbd.quiz.utils.network.NetworkFailureMessage
@@ -110,6 +112,8 @@ class QuizFragment : Fragment() {
 
                         totalQuestion = it.data.questions.size
 
+                        ff()
+
 
                     }
                 }
@@ -136,6 +140,36 @@ class QuizFragment : Fragment() {
                         placeholder(R.drawable.no_image)
                         error(R.drawable.no_image)
                     }
+                }
+
+                ff()
+            }
+        }
+
+
+    }
+
+    private fun ff() {
+        binding.composeProgress.disposeComposition()
+        binding.composeProgress.apply {
+            setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+
+            setContent {
+                PHQuizTheme {
+                    LinearProgressTimerIndicator(duration = 10000) {
+                        counter += 1
+                        if (totalQuestion > counter) {
+                            viewModel.setQuestionX(questions[counter], counter, true)
+                        } else {
+                            if (sharePrefUtil.getValueInt(AppConstants.HIGH_SCORE) < scoreCount)
+                                sharePrefUtil.save(AppConstants.HIGH_SCORE, scoreCount)
+
+                            showAlertDialog(scoreCount)
+                        }
+                    }
+
                 }
             }
         }
