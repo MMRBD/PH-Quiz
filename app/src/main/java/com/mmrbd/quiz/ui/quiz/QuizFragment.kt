@@ -112,7 +112,7 @@ class QuizFragment : Fragment() {
 
                         totalQuestion = it.data.questions.size
 
-                        ff()
+                        timerProgressCompose()
 
 
                     }
@@ -142,14 +142,14 @@ class QuizFragment : Fragment() {
                     }
                 }
 
-                ff()
+                timerProgressCompose()
             }
         }
 
 
     }
 
-    private fun ff() {
+    private fun timerProgressCompose() {
         binding.composeProgress.disposeComposition()
         binding.composeProgress.apply {
             setViewCompositionStrategy(
